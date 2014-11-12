@@ -1,0 +1,21 @@
+{
+    "name": "cozumel/yii2-themepicker",
+    "description": "This is a simple extension to pick themes. The user chooses a theme from a dropdown box.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"," theme picker"," theme selector"," front end theme picker"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Cozumel",
+            "email": "Cozumel@live.co.uk"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "cozumel\\ThemePicker\\": ""
+        }
+    }
+}
