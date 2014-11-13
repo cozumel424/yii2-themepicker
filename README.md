@@ -28,14 +28,15 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```
-<?= \cozumel\ThemePicker\AutoloadExample::widget(); ?>
+<?= \cozumel\ThemePicker\ThemePicker::widget(); ?>
 ```
 
 You will need to place it in each theme where you want to use it.
 
 The default theme path is set as @app/themes. You may need to change this depending where your themes are.
 
-Line 61 ThemePicker.php 
+Line 61 ThemePicker.php
+ 
 Lines 30-36 Bootstrap.php
 
 Just change @app/themes to @app/web/themes or wherever your themes are.
