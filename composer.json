@@ -17,5 +17,8 @@
         "psr-4": {
             "cozumel\\ThemePicker\\": ""
         }
+    },
+	"extra": {
+        "bootstrap": "cozumel\\ThemePicker\\Bootstrap"
     }
 }
