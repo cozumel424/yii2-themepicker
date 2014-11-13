@@ -4,38 +4,63 @@ namespace cozumel\ThemePicker;
 
 use yii\widgets\ActiveForm;
 
-use yii\base\BootstrapInterface;
-use yii\base\Application;
-
 class ThemePicker extends \yii\base\Widget
 {
     public function run()
     {
-		//theme path - adjust as necessary
-		//$themePath = \Yii::$app->basePath . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'themes'; 
-		$themePath = \Yii::$app->basePath . DIRECTORY_SEPARATOR . 'themes'; 
+		$themes = self::getThemes();
 		
-		$themes = self::getThemes($themePath);
+		//create theme dropdown
 		
-		//create theme dropdown, probably a better way, let me know
-		$dropdown= '<select id="theme_picker" class="form-control" name="theme_picker">';
-		foreach($themes as $theme)
+		if(count($themes) > 0)
 		{
-			$dropdown .= '<option value="' . $theme .'">'. $theme . '</option>';
+			
+			//get theme value from cookie
+			$themeName = \Yii::$app->getRequest()->getCookies()->getValue('theme_picker');
+			
+			$dropdown= '<select id="theme_picker" class="form-control" name="theme_picker" onchange="this.form.submit()">';
+			$dropdown .= '<option value="">' . \Yii::t('theme_picker', 'Choose a theme') . ' </option>';
+			foreach($themes as $theme)
+			{
+				$themeName == $theme ? $selected = 'selected="true"' : $selected = '';
+				$dropdown .= '<option value="' . $theme .'" ' . $selected . '">'. $theme . '</option>';
+			}
+			
+			$dropdown .= '</select>';
+		
+			ActiveForm::begin();
+			echo $dropdown;
+			ActiveForm::end();
 		}
 		
-		$dropdown .= '</select>';
-		
-		
-		ActiveForm::begin();
-		echo $dropdown;
-		ActiveForm::end();
+		if(\Yii::$app->request->post('theme_picker') !== null && in_array($_POST['theme_picker'],  $themes, true)){
+			self::setCookie($_POST['theme_picker']);
+		}
 				
     }
 	
+	private static function setCookie($themeName) {
+		
+		$days = 180; //how many days till it expires
+		
+		$cookie = new \Yii\web\Cookie([
+			'name' => 'theme_picker',
+			'value' => $themeName,
+			'expire' => time() + 60*60*24*$days
+		]);
+		
+		\Yii::$app->response->cookies->add($cookie);
+		
+	}
 	
-	private static function getThemes($themePath){
-    	$themes = array();
+	
+	public static function getThemes(){
+		
+		//theme path - adjust as necessary
+		//$themePath = \Yii::$app->basePath . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'themes'; 
+		$themePath = \Yii::$app->basePath . DIRECTORY_SEPARATOR . 'themes'; 
+		    	
+		$themes = array();
     	$directoryIterator = new \DirectoryIterator($themePath);
     	foreach($directoryIterator as $item)
       	if($item->isDir() && !$item->isDot())
@@ -43,23 +68,3 @@ class ThemePicker extends \yii\base\Widget
       	return $themes;
     }
 }
-
-
-	class Bootstrap implements BootstrapInterface
-	{
-	
-	  public function bootstrap($app)
-	  {
-		  $app->on(Application::EVENT_BEFORE_REQUEST, function () {
-			  
-	  			\Yii::$app->view->theme = new \yii\base\Theme([
-					'pathMap' => ['@app/modules' => '@app/themes/pianos/modules'],
-					'baseUrl' => '@app/themes/pianos',
-				]);
-			  
-		  });
-             
-		  
-	  }
-	  
-	}
