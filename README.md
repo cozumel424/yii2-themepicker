@@ -2,6 +2,10 @@ Front End Theme Selection For Yii2
 ==================================
 This is a simple extension to pick themes. The user chooses a theme from a dropdown box and the theme choice is stored in a cookie, the extension could easily be changed to work with a model too.
 
+[![Latest Stable Version](https://poser.pugx.org/cozumel/yii2-themepicker/v/stable)](https://packagist.org/packages/cozumel/yii2-themepicker) 
+[![Total Downloads](https://poser.pugx.org/cozumel/yii2-themepicker/downloads)](https://packagist.org/packages/cozumel/yii2-themepicker) 
+[![License](https://poser.pugx.org/cozumel/yii2-themepicker/license)](https://packagist.org/packages/cozumel/yii2-themepicker)
+
 Installation
 ------------
 
